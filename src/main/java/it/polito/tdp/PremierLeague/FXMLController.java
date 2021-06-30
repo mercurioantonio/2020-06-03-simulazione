@@ -8,6 +8,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import it.polito.tdp.PremierLeague.model.Model;
+import it.polito.tdp.PremierLeague.model.Player;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -44,17 +45,44 @@ public class FXMLController {
 
     @FXML
     void doCreaGrafo(ActionEvent event) {
-
+      float gol;
+      try {
+    	 gol = Float.parseFloat(txtGoals.getText());
+    	 model.creaGrafo(gol);
+    	 txtResult.appendText("GRAFO CREATO: " + "\n");
+    	 txtResult.appendText("#vertici: " + model.getVertici() + "\n");
+    	 txtResult.appendText("#archi: " + model.getArchi());
+      }
+      catch(NumberFormatException e) {
+    	  txtResult.appendText("Inserire un numero intero");
+    	  return;
+      }
     }
 
     @FXML
     void doDreamTeam(ActionEvent event) {
-
+       try {
+    	   int k = Integer.parseInt(txtK.getText());
+    	   model.findDreamTeam(k);
+    	   txtResult.appendText("DREAM TEAM: " + "\n");
+    	   for(Player p : model.getDreamTeam()) {
+    	   txtResult.appendText(p.toString() + "\n");
+    	   }
+    	   txtResult.appendText("GRADO TITOLARITA: " + "\n");
+    	   txtResult.appendText("" + model.getmaxTitolarità());
+    	   
+       }
+       catch(NumberFormatException e) {
+    	   txtResult.appendText("Inserisci un numero di gicatori");
+    	   return;
+       }
     }
 
     @FXML
     void doTopPlayer(ActionEvent event) {
-
+    	txtResult.clear();
+    	txtResult.appendText("GIOCATORE MIGLIORE:" + "\n");
+    	txtResult.appendText(model.getMigliore());
     }
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
